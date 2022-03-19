@@ -1,0 +1,61 @@
+package com.site.agencia;
+
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.repository.CrudRepository;
+
+import com.site.agencia.entities.Agencia;
+import com.site.agencia.entities.Cliente;
+import com.site.agencia.entities.Destino;
+import com.site.agencia.repositorys.ClienteRepository;
+import com.site.agencia.repositorys.DestinoRepository;
+
+@SpringBootApplication
+public class AgenciaApplication implements CommandLineRunner {
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	private CrudRepository<Cliente, Long> destinoRepository;
+	
+
+	public static void main(String[] args) {
+		SpringApplication.run(AgenciaApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+	
+		Cliente c1 = new Cliente(null,"Paulo Hemrique Pereira", "Rua José Pereira Bueno", "(11) 9 6666-6557");
+		Cliente c2 = new Cliente(null, "Giovanna Pereira", "Av.Giovanni Gronchi", "(11) 9 9999-9999");
+		 
+		Destino d1 = new Destino(null,"São Paulo", "22:30hs", "22/03/2021");
+		Destino d2 = new Destino(null,"Ilhéus", "10:00hs", "02/01/2022");
+		
+		Agencia a1 = new Agencia(null, "vida e volta R$ 1.300","Passagem R$ 2.102", c2, d2);
+		Agencia a2 = new Agencia(null,"vida e volta R$ 1.300","Passagem R$ 2.102", c2, d2);
+		
+		c1.getAgencia().addAll(Arrays.asList(a2));
+		c2.getAgencia().addAll(Arrays.asList(a1));
+		
+		clienteRepository.save(c1);
+		clienteRepository.save(c2);
+		
+	
+		
+		
+		
+		
+		
+	
+		
+		
+		
+       
+		
+	}
+
+}

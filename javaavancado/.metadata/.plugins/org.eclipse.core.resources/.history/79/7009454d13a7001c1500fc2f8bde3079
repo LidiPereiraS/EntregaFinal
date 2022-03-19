@@ -1,0 +1,93 @@
+package com.site.agencia.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.site.agencia.entities.Agencia;
+import com.site.agencia.entities.Cliente;
+import com.site.agencia.entities.Destino;
+import com.site.agencia.repositorys.AgenciaRepository;
+import com.site.agencia.repositorys.ClienteRepository;
+import com.site.agencia.repositorys.DestinoRepository;
+
+
+
+@RestController
+@RequestMapping(value = "/agencias")
+public class AgenciaController {
+
+	@Autowired
+	private AgenciaRepository agenciaRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private DestinoRepository destinoRepository;
+	
+	@GetMapping
+	public ResponseEntity<List<Agencia>> findAll(){
+		
+		 List<Agencia> agencias = agenciaRepository.findAll();
+		 
+		 return ResponseEntity.ok().body(agencias);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Agencia> findById(@PathVariable Long id) {
+		
+		Agencia agencia = agenciaRepository.findById(id).get();
+		
+		return ResponseEntity.ok().body(agencia);
+	}
+	
+	// CREATE
+    @PostMapping
+    public Agencia create(@RequestBody  Agencia agencia) {
+    	
+        return agenciaRepository.save(agencia);
+    }
+    
+    // UPDATE
+    @PutMapping("{id}")
+    public ResponseEntity<Agencia> update(@PathVariable long id,@RequestBody Agencia agenciaDetails) {
+    	Agencia updateAgencia = agenciaRepository.findById(id).get();
+    	Cliente cliente = clienteRepository.findById(agenciaDetails.getCliente().getId_cliente()).get();
+    	Destino destino = destinoRepository.findById(agenciaDetails.getDestino().getId_destino()).get();		
+    	
+
+    	updateAgencia.setPromocao(agenciaDetails.getPromocao());
+    	updateAgencia.setPreco(agenciaDetails.getPreco());
+    	updateAgencia.setCliente(cliente);
+    	updateAgencia.setDestino(destino);
+
+   
+
+    	agenciaRepository.save(updateAgencia);
+
+        return ResponseEntity.ok(updateAgencia);
+    }
+
+    // DELETE
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+
+    	Agencia agencia = agenciaRepository.findById(id).get();
+
+    	agenciaRepository.delete(agencia);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+	
+}

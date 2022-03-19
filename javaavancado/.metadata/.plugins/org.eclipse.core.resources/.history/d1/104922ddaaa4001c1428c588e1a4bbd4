@@ -1,0 +1,36 @@
+package com.site.agencia;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.site.agencia.entities.Cliente;
+import com.site.agencia.repositorys.ClienteRepository;
+
+@SpringBootApplication
+public class AgenciaApplication implements CommandLineRunner {
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+
+	public static void main(String[] args) {
+		SpringApplication.run(AgenciaApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+	
+		Cliente c1 = new Cliente(null,"Paulo Hemrique Pereira", "Rua José Pereira Bueno", "(11) 9 6666-6557");
+		Cliente c2 = new Cliente(null, "Giovanna Pereira", "Av.Giovanni Gronchi", "(11) 9 9999-9999");
+		
+		clienteRepository.save(c1);
+		clienteRepository.save(c2);
+		
+		
+       
+		
+	}
+
+}

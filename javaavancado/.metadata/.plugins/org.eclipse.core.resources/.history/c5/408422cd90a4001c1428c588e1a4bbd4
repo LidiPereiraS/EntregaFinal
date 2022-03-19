@@ -1,0 +1,88 @@
+package com.site.agencia.entities;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Destino implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long Id_destino;
+	private String cidade;
+	private String horario;
+	private String data;
+	
+	public Destino() {
+		super();
+	}
+
+	public Destino(Long id_destino, String cidade, String horario, String data) {
+		super();
+		Id_destino = id_destino;
+		this.cidade = cidade;
+		this.horario = horario;
+		this.data = data;
+	}
+
+	public Long getId_destino() {
+		return Id_destino;
+	}
+
+	public void setId_destino(Long id_destino) {
+		Id_destino = id_destino;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getHorario() {
+		return horario;
+	}
+
+	public void setHorario(String horario) {
+		this.horario = horario;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Id_destino);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Destino other = (Destino) obj;
+		return Objects.equals(Id_destino, other.Id_destino);
+	}
+	
+	
+	
+	
+
+}

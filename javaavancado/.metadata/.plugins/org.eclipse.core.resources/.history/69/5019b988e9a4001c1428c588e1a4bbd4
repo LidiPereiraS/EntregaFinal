@@ -1,0 +1,38 @@
+package com.site.agencia.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.site.agencia.entities.Agencia;
+import com.site.agencia.repositorys.AgenciaRepository;
+
+
+@RestController
+@RequestMapping(value = "/agencias")
+public class AgenciaController {
+
+	@Autowired
+	private AgenciaRepository agenciaRepository;
+	
+	@GetMapping
+	public ResponseEntity<List<Agencia>> findAll(){
+		
+		 List<Agencia> agencias = agenciaRepository.findAll();
+		 
+		 return ResponseEntity.ok().body(agencias);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Agencia> findById(@PathVariable Long id) {
+		
+		Agencia agencia = agenciaRepository.findById(id).get();
+		
+		return ResponseEntity.ok().body(agencia);
+	}
+}
